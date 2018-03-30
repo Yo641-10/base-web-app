@@ -45,13 +45,13 @@
             for (var i = 0; i < novels_list.length; ++i) {
                 var item = novels_list[i];
                 var html_tpl = '<div class="post-preview">' +
-                    '<a href="' + item["url"] + '">' +
-                    '<h2 class="post-title">' + item["title"] + '</h2>' +
-                    '<h5 class="post-subtitle">' + item["subtitle"] + '</h5>' +
+                    '<a href="' + item["link"] + '">' +
+                    '<h3 class="post-title">' + item["title"] + '</h3>' +
+                    '<h5 class="post-subtitle">' + item["description"] + '</h5>' +
                     '</a>' +
                     '<p class="post-meta">作者：' +
-                    '<a href="#">' + item["author"] + '</a> &nbsp;&nbsp;时间：' + item["date"] +
-                    '</p></div><hr>';
+                    '<a href="#">' + item["author"] + '</a> &nbsp;&nbsp;时间：' + item["pubDate"] +
+                    '&nbsp;&nbsp;&nbsp;&nbsp; \\' + item["category"] + '</p></div><hr>';
                 $(".main-novels").append(html_tpl);
             }
             $(".main-novels")
