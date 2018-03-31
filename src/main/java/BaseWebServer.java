@@ -36,10 +36,6 @@ public class BaseWebServer extends BaseLogger {
         return (baseWebServer = baseWebServer == null ? new BaseWebServer(VertxCore.newInstance().getServer()) : baseWebServer);
     }
 
-    public static void main(String[] args) throws Exception {
-        BaseWebServer.newInstance().start();
-    }
-
     private void addRouter() {
         Router router = Router.router(VertxCore.newInstance().getVertx());
         router.routeWithRegex(".*").handler(rc -> {
@@ -56,7 +52,7 @@ public class BaseWebServer extends BaseLogger {
         router.get("/").handler(rc -> {
             rc.reroute("/index");
         });
-        router.get("/index。*").handler(rc -> {
+        router.get("/index.*").handler(rc -> {
             rc.reroute("/index");
         });
         router.get("/index").handler(rc -> {
@@ -77,7 +73,6 @@ public class BaseWebServer extends BaseLogger {
                         item.forEach(subItem -> {
                             String[] kv = subItem.split("#",2);
                             if (kv.length > 1) {
-                                out.println(kv[0] + " " + kv[1]);
                                 novel.put(kv[0], kv[1].trim());
                             }
                         });
