@@ -25,6 +25,7 @@ public class BaseWebServer extends BaseLogger {
     private final HttpServer server;
     private String host = ConfigLoader.getValue(ConfigLoader.HOST);
     private String port = ConfigLoader.getValue(ConfigLoader.PORT);
+    private String domain = ConfigLoader.getValue(ConfigLoader.DOMAIN);
 
     private BaseWebServer(HttpServer server) {
         this.server = server;
@@ -43,9 +44,8 @@ public class BaseWebServer extends BaseLogger {
         Router router = Router.router(VertxCore.newInstance().getVertx());
         router.routeWithRegex(".*").handler(rc -> {
             HttpServerRequest request = rc.request();
-            BaseWebServer.newInstance().getLogger().info(request.localAddress().toString());
-            BaseWebServer.newInstance().getLogger().info(request.absoluteURI());
-            if (GlobalConstants.LOCAL_ADDRESS.equals(rc.request().headers().get("host").trim())) {
+            getLogger().info(request.headers().get("host").trim());
+            if (domain.equals(request.headers().get("host").trim())) {
                 rc.next();
             } else {
                 rc.fail(404);
@@ -56,9 +56,12 @@ public class BaseWebServer extends BaseLogger {
         router.get("/").handler(rc -> {
             rc.reroute("/index");
         });
+        router.get("/index。*").handler(rc -> {
+            rc.reroute("/index");
+        });
         router.get("/index").handler(rc -> {
             rc.response().putHeader("Content-Type", "text/html;charset=utf-8");
-            rc.response().sendFile("index.html");
+            rc.response().sendFile("webroot/index.html");
         });
         router.get("/robots.txt").handler(rc -> {
             rc.response().sendFile("webroot/robots.txt");

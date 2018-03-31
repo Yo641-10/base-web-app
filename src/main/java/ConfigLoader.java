@@ -10,6 +10,7 @@ public class ConfigLoader {
     private static HashMap<String, String> configMap = new HashMap<>();
     public static String HOST = "ip";
     public static String PORT = "port";
+    public static String DOMAIN = "domain";
     static {
     }
 
