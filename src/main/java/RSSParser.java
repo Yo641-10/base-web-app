@@ -1,3 +1,4 @@
+import javafx.util.Pair;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -6,16 +7,43 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import java.io.IOException;
+import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import static java.lang.System.out;
+
 
 public class RSSParser {
     public static List<List<String>> parse(String uri) throws ParserConfigurationException, IOException, SAXException {
-        SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
-        SAXParser saxParser = saxParserFactory.newSAXParser();
-        InnerSaxParserHandler innerSaxParserHandler = new InnerSaxParserHandler();
-        saxParser.parse(uri, innerSaxParserHandler);
-        return innerSaxParserHandler.itemList;
+        Pair<String, Long> pair = SimpleMemDB.getSimpleMemDB().get(uri);
+        out.println(new Date().getTime());
+        if (pair == null || pair.getValue() < new Date().getTime() - 60000) {
+            if (pair != null) {
+                SimpleMemDB.getSimpleMemDB().unset(uri);
+            }
+            SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
+            SAXParser saxParser = saxParserFactory.newSAXParser();
+            InnerSaxParserHandler innerSaxParserHandler = new InnerSaxParserHandler();
+            saxParser.parse(uri, innerSaxParserHandler);
+            String dataString = SimpleMemDB.pack(innerSaxParserHandler.itemList
+                    .stream()
+                    .map(item -> SimpleMemDB.pack(item, "" + (char) 1))
+                    .collect(Collectors.toList()), "" + (char) 2);
+            SimpleMemDB.getSimpleMemDB().set(uri, dataString);
+            out.println("use Download.");
+        } else {
+            out.println("use Cache.");
+        }
+        pair = SimpleMemDB.getSimpleMemDB().get(uri);
+        if (pair != null) {
+            return SimpleMemDB.unpack(pair.getKey()).stream().map(SimpleMemDB::unpack).collect(Collectors.toList());
+        } else {
+            return new ArrayList<>();
+        }
+
     }
 
     public static void main(String[] args) throws Exception {
