@@ -3,6 +3,8 @@ import io.vertx.core.VertxOptions;
 import io.vertx.core.http.HttpServer;
 import io.vertx.core.http.HttpServerOptions;
 
+import static java.lang.System.out;
+
 /**
  * Created by umic_ on 2018/3/24.
  */
@@ -38,8 +40,8 @@ public class VertxCore extends BaseLogger {
     }
 
     public static void main(String[] args) throws Exception {
-        VertxCore.newInstance();
-        VertxCore.newInstance();
-    }
+//        VertxCore.newInstance();
+//        VertxCore.newInstance();
+   }
 
 }
