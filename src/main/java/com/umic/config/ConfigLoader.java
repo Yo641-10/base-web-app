@@ -1,3 +1,5 @@
+package com.umic.config;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -11,7 +13,11 @@ public class ConfigLoader {
     public static String HOST = "ip";
     public static String PORT = "port";
     public static String DOMAIN = "domain";
+
     static {
+        configMap.put(HOST, "127.0.0.1");
+        configMap.put(DOMAIN, "127.0.0.1");
+        configMap.put(PORT, "8080");
     }
 
     public static void loadConfig(String filename) {
@@ -45,7 +51,7 @@ public class ConfigLoader {
     }
 
     public static void main(String[] args) throws Exception {
-        loadConfig("config/config.dat");
+        loadConfig("com/umic/config/com.umic.config.dat");
         getHashMap().entrySet().stream().forEach(out::println);
     }
 }

@@ -1,3 +1,5 @@
+package com.umic.utils;
+
 import javafx.util.Pair;
 
 import java.util.*;

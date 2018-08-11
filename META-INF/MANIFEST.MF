@@ -7,8 +7,8 @@ Class-Path: libs/jackson-annotations-2.9.0.jar libs/jackson-core-2.9.3
  inal.jar libs/netty-common-4.1.19.Final.jar libs/netty-handler-4.1.19
  .Final.jar libs/netty-handler-proxy-4.1.19.Final.jar libs/netty-resol
  ver-4.1.19.Final.jar libs/netty-resolver-dns-4.1.19.Final.jar libs/ne
- tty-transport-4.1.19.Final.jar libs/vertx-auth-common-3.5.1.jar libs/
- vertx-bridge-common-3.5.1.jar libs/vertx-core-3.5.1.jar libs/vertx-we
+ tty-transport-4.1.19.Final.jar libs/com.umic.vertx-auth-common-3.5.1.jar libs/
+ com.umic.vertx-bridge-common-3.5.1.jar libs/com.umic.vertx-core-3.5.1.jar libs/com.umic.vertx-we
  b-3.5.1.jar
-Main-Class: BaseWebServer
+Main-Class: com.umic.vertx.BaseWebServer
 
